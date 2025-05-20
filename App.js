@@ -40,7 +40,6 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.header}>THE GUESSING GAME</Text>
       <Button
-        style={styles.button}
         title="Generate new number"
         color="red"
         onPress={() => generateNewNumber()}
