@@ -27,11 +27,14 @@ export default function App() {
     Keyboard.dismiss();
     if (count == randomNumber) {
       setAnswer("Correct!");
+      setCount(0);
     } else {
       if (count < randomNumber) {
         setAnswer("Wrong! To low!");
+        setCount(0);
       } else if (count > randomNumber) {
         setAnswer("Wrong! To high!");
+        setCount(0);
       }
     }
   }
@@ -39,22 +42,41 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>THE GUESSING GAME</Text>
-      <Button
-        title="Generate new number"
-        color="red"
-        onPress={() => generateNewNumber()}
-      />
-      <Text>{`total guesses: ${totalGuesses}`}</Text>
-      <Text>Guess a number...</Text>
+
+      <Text style={styles.h2}>Guess a number...</Text>
       <View style={styles.selectNumberBox}>
         <TextInput
+          placeholder="Type number here"
           style={styles.count}
           onChangeText={(text) => setCount(Number(text))}
           keyboardType="numeric"
         />
       </View>
-      <Button title="Guess!" onPress={() => makeAGuess()} />
-      <Text>{answer}</Text>
+      <Button
+        style={styles.inputStyle}
+        title="Click to Guess!"
+        onPress={() => makeAGuess()}
+      />
+      {answer != "" && (
+        <>
+          <Text
+            style={
+              answer == "Correct!" ? styles.correctAnswer : styles.wrongAnswer
+            }
+          >
+            {answer}
+          </Text>
+
+          <Text
+            style={styles.totalGuesses}
+          >{`total guesses: ${totalGuesses}`}</Text>
+          <Button
+            title="Generate new number"
+            color="gray"
+            onPress={() => generateNewNumber()}
+          />
+        </>
+      )}
     </View>
   );
 }
@@ -74,10 +96,46 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
 
+  h2: {
+    fontSize: 24,
+  },
+
   count: {
-    fontSize: 64,
     fontWeight: "bold",
     textAlign: "center",
-    backgroundColor: "light blue",
+    backgroundColor: "#e0f7fa",
+    width: "200",
+    padding: 16,
+    borderRadius: 100,
+  },
+
+  inputStyle: {
+    padding: 16,
+    backgroundColor: "red",
+  },
+
+  totalGuesses: {
+    backgroundColor: "coral",
+    width: 200,
+    textAlign: "center",
+    padding: 16,
+    borderRadius: 100,
+  },
+
+  correctAnswer: {
+    padding: 16,
+    textAlign: "center",
+    borderRadius: 100,
+    width: 200,
+    backgroundColor: "green",
+    color: "white",
+  },
+  wrongAnswer: {
+    padding: 16,
+    textAlign: "center",
+    borderRadius: 100,
+    width: 200,
+    backgroundColor: "red",
+    color: "white",
   },
 });
